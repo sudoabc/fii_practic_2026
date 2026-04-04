@@ -61,9 +61,9 @@ resource "random_password" "nc_cloudfront_origin_secret" {
   special = false
 }
 
-resource "aws_iam_service_linked_role" "autoscaling" {
-  aws_service_name = "autoscaling.amazonaws.com"
-}
+# resource "aws_iam_service_linked_role" "autoscaling" {
+#   aws_service_name = "autoscaling.amazonaws.com"
+# }
 
 locals {
   nc_dr_kms_policy = jsonencode({
