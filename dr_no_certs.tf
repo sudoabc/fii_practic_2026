@@ -791,6 +791,13 @@ resource "aws_iam_role_policy" "nc_dr_iam_ec2_policy" {
           aws_kms_key.nc_dr_kms_mrk.arn,
           aws_kms_replica_key.nc_dr_kms_replica.arn
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = ["bedrock:InvokeModel"]
+        Resource = [
+          "arn:aws:bedrock:us-east-1::foundation-model/${var.bedrock_model_id}"
+        ]
       }
     ]
   })
@@ -832,7 +839,8 @@ resource "aws_launch_template" "nc_dr_lt_primary" {
     table_name       = var.dynamodb_table_name,
     aws_region       = data.aws_region.nc_dr_primary.name,
     image_key        = var.background_image_key,
-    bedrock_model_id = var.bedrock_model_id
+    bedrock_model_id = var.bedrock_model_id,
+    bedrock_region   = "us-east-1"
 })}
     PY_EOF
     cat <<SVC_EOF > /etc/systemd/system/cloudpulse.service
@@ -908,7 +916,8 @@ resource "aws_launch_template" "nc_dr_lt_secondary" {
     table_name       = var.dynamodb_table_name,
     aws_region       = data.aws_region.nc_dr_secondary_region.name,
     image_key        = var.background_image_key,
-    bedrock_model_id = var.bedrock_model_id
+    bedrock_model_id = var.bedrock_model_id,
+    bedrock_region   = "us-east-1"
 })}
     PY_EOF
     cat <<SVC_EOF > /etc/systemd/system/cloudpulse.service

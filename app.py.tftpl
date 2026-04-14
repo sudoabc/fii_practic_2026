@@ -8,15 +8,16 @@ metrics = PrometheusMetrics(app)
 metrics.info('flask_app_info', 'Application info', version='1.0.0')
 
 # These variables are passed in via the templatefile() function
-BUCKET_NAME = "${bucket_name}"
-TABLE_NAME  = "${table_name}"
-REGION      = "${aws_region}"
-IMAGE_KEY   = "${image_key}"
-MODEL_ID    = "${bedrock_model_id}"
+BUCKET_NAME    = "${bucket_name}"
+TABLE_NAME     = "${table_name}"
+REGION         = "${aws_region}"
+IMAGE_KEY      = "${image_key}"
+MODEL_ID       = "${bedrock_model_id}"
+BEDROCK_REGION = "${bedrock_region}"
 
 s3_client = boto3.client('s3', region_name=REGION)
 dynamodb  = boto3.resource('dynamodb', region_name=REGION)
-bedrock   = boto3.client('bedrock-runtime', region_name=REGION)
+bedrock   = boto3.client('bedrock-runtime', region_name=BEDROCK_REGION)
 table     = dynamodb.Table(TABLE_NAME)
 
 # 60-second in-process cache for /explain responses.
