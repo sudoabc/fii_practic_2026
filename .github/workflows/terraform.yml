@@ -31,7 +31,6 @@ jobs:
       - name: Verify Bedrock Nova Lite access
         # Sends a 1-token ping to Nova Lite. Success proves the account has
         # granted model access (a manual console step that can't be Terraformed).
-        # Fails fast with a clear error instead of letting the dashboard widget
         # silently show "AI insight unavailable" after a full deploy.
         run: |
           if ! aws bedrock-runtime invoke-model \
